@@ -1,8 +1,14 @@
 <template>
-  <div>home</div>
+  <div>
+    <post-list />
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-export default class Home extends Vue {}
+import PostList from "@/components/PostList.vue";
+export default {
+  components: {
+    PostList,
+  },
+};
 </script>
