@@ -12,7 +12,24 @@
           <li></li>
         </ul>
       </div>
-      <div class="topicContent" v-html="post.content"></div>
+      <div class="topicContent markdown-body" v-html="post.content"></div>
+    </div>
+    <div>
+      <div class="topbar"></div>
+      <div v-for="(reply,index) in post.replies" :key="reply.id">
+        <router-link :to="{
+          name:'Userinfo',
+          params:{
+            name:reply.author.loginname
+          }
+        }">
+        <img src="reply.author.avatar_url" alt="">
+        </router-link>
+        <span>{{reply.author.loginname}}</span>
+        <span>{{index+1}}楼</span>
+        <span v-if="reply.ups.length>0">{{reply.ups.length}}</span>
+        <p v-html='reply.content'></p>
+      </div>
     </div>
   </div>
 </template>

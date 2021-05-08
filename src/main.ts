@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import Axios from 'axios'
+import 'github-markdown-css'
 
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false

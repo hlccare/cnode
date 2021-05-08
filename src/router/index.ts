@@ -24,6 +24,10 @@ const routes: Array<RouteConfig> = [
       main: Article
     }
   },
+  {
+    path:'/userinfo/:name',
+    name:"Userinfo"
+  }
 ]
 
 const router = new VueRouter({
