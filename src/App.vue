@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />
     <router-view></router-view>
   </div>
 </template>
@@ -13,4 +14,6 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "~@/assets/style/reset.scss";
+@import "~@/assets/style/helper.scss";
 </style>
