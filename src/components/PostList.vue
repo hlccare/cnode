@@ -31,9 +31,19 @@ import PostList from '@/components/PostList.vue';
           >
             {{ post | labelFormatter }}
           </span>
-          <span class="title">
-            {{ post.title }}
-          </span>
+          <router-link
+            :to="{
+              name: 'Post',
+              params: {
+                id: post.id,
+              },
+            }"
+          >
+            <span class="title">
+              {{ post.title }}
+            </span>
+          </router-link>
+
           <span class="lastReply">
             {{ post.last_reply_at | formatDate }}
           </span>
@@ -79,7 +89,6 @@ export default {
 <style lang="scss" scoped>
 .postList {
   background: #e1e1e1;
-  border: 1px solid blue;
   > .posts {
     .topbar {
       background: #f5f5f5;
@@ -124,7 +133,7 @@ export default {
         background: #e5e5e5;
         color: #999;
       }
-      > .title {
+      .title {
         margin-left: 4px;
         &:hover {
           cursor: pointer;

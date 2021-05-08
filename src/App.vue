@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header />
-    <router-view></router-view>
+    <div class="main">
+      <router-view name="main"></router-view>
+    </div>
   </div>
 </template>
 <script lang="ts">
