@@ -56,6 +56,12 @@ export default {
         });
     },
   },
+  
+    watch:{
+        $route(to,from){
+            this.getArticleData();
+        }
+    },
   beforeMount() {
     this.isLoading = true;
     this.getArticleData();

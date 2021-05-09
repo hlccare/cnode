@@ -1,4 +1,3 @@
-import PostList from '@/components/PostList.vue';
 <template>
   <div class="postList">
     <div v-if="isLoading" class="loading">加载中</div>
@@ -6,11 +5,12 @@ import PostList from '@/components/PostList.vue';
       <ul>
         <li>
           <div class="topbar">
-            <span>全部</span>
-            <span>精华</span>
-            <span>分享</span>
-            <span>问答</span>
-            <span>招聘</span>
+            <span 
+             @click='changeTab(value)'
+            :class="{selected: postTab === value}"
+            v-for="(value,key,index) in tabMap" :key="index">
+              {{key}}
+            </span>
           </div>
         </li>
         <li v-for="post in posts" :key="post.id" class="postItem">
@@ -36,6 +36,7 @@ import PostList from '@/components/PostList.vue';
               name: 'Post',
               params: {
                 id: post.id,
+                name: post.author.loginname
               },
             }"
           >
@@ -48,17 +49,34 @@ import PostList from '@/components/PostList.vue';
             {{ post.last_reply_at | formatDate }}
           </span>
         </li>
+        <li class="pagination">
+          <pagination @handle='renderList'/>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import Pagination from '@/components/Pagination.vue'
+const tabMap = {
+  '全部':'',
+  '精华':'good',
+  '分享':'share',
+  '问答':'ask',
+  '招聘':'job'
+}
 export default {
+  components:{
+    Pagination
+  },
   data: function () {
     return {
       isLoading: false,
       posts: [],
+      postpage:1,
+      postTab:'',
+      tabMap
     };
   },
   methods: {
@@ -66,18 +84,26 @@ export default {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
           params: {
-            page: 1,
+            page: this.postpage,
             limit: 20,
+            tab: this.postTab
           },
         })
         .then((res) => {
           this.isLoading = false;
-          console.log(res);
           this.posts = res.data.data;
           console.log(this.posts);
         })
         .catch();
     },
+    renderList(value){
+      this.postpage = value
+      this.getData()
+    },
+    changeTab(value){
+      this.postTab = value
+      this.getData()
+    }
   },
   beforeMount() {
     this.isLoading = true;
@@ -89,6 +115,7 @@ export default {
 <style lang="scss" scoped>
 .postList {
   background: #e1e1e1;
+  border-radius: 3px;
   > .posts {
     .topbar {
       background: #f5f5f5;
@@ -99,6 +126,14 @@ export default {
         padding: 3px 4px;
         margin: 0 10px;
         cursor: pointer;
+        &.selected{
+          color: white;
+          background: #80bd01;
+          border-radius: 3px;
+        }
+        &:not(.selected):hover{
+          color:#9e78c0;
+        }
       }
     }
     .postItem {
@@ -142,6 +177,10 @@ export default {
       > .lastReply {
         margin-left: auto;
       }
+    }
+    .pagination{
+      background:white;
+      padding: 4px;
     }
   }
 }

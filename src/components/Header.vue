@@ -1,15 +1,30 @@
 <template>
   <div class="header">
+    <router-link to="/">
     <svg class="logo">
       <use xlink:href="#logo" />
     </svg>
+    </router-link>
     <ul>
-      <li><a href="#">首页</a></li>
-      <li><a href="#">新手</a></li>
-      <li><a href="#">API</a></li>
-      <li><a href="#">关于</a></li>
-      <li><a href="#">登录</a></li>
-      <li><a href="#">注册</a></li>
+      <router-link to="/">
+        <li>首页</li>
+      </router-link>
+      <router-link to="/">
+        <li>新手</li>
+      </router-link>
+      <router-link to="/">
+        <li>API</li>
+      </router-link >
+      <router-link to="/">
+        <li>关于</li>
+      </router-link>
+      <router-link to="/">
+        <li>登录</li>
+      </router-link>
+      <router-link to="/">
+        <li>注册</li>
+      </router-link>
+
     </ul>
   </div>
 </template>
@@ -28,7 +43,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  > .logo {
+   .logo {
     max-width: 120px;
     max-height: 30px;
     margin-left: 50px;
@@ -36,7 +51,7 @@ export default {
   > ul {
     list-style: none;
     margin-right: 16px;
-    > li {
+     li {
       display: inline-block;
       padding: 0 16px;
       color: white;
