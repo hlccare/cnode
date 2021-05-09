@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Article from '@/components/Article.vue'
-import sliderBar from '@/components/SliderBar.vue'
+import sliderBar from '@/components/SiderBar.vue'
 
 Vue.use(VueRouter)
 

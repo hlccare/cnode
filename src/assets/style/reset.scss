@@ -29,3 +29,8 @@ h6 {
 body {
   background: #e1e1e1;
 }
+.oneLine {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

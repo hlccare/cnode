@@ -1,9 +1,9 @@
 <template>
   <div class="pagination">
       <button >«</button>
-      <button class="pagebtn" v-if="isPrevHidden">...</button>
+      <button class="pagebtn pageEllipsis" v-if="isPrevHidden">...</button>
       <button 
-        :class="[{currentPage:btn===currentPage},'pagebtn']"
+        :class="[{currentPage:btn===currentPage},{pageEllipsis:btn==='...'},'pagebtn']"
         @click="changePage(btn)"
       v-for="(btn,index) in pagebtns" :key='index'>
           {{btn}}
@@ -78,6 +78,9 @@ button{
 }
 .currentPage{
     color:#80bd84;
+    cursor: default;
+}
+.pageEllipsis{
     cursor: default;
 }
 </style>

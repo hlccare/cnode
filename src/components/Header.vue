@@ -54,7 +54,10 @@ export default {
      li {
       display: inline-block;
       padding: 0 16px;
-      color: white;
+      color: #cccccc;
+      &:hover{
+        color:white;
+      }
     }
   }
 }

@@ -14,7 +14,14 @@
           </div>
         </li>
         <li v-for="post in posts" :key="post.id" class="postItem">
+          <router-link :to="{
+              name:'Userinfo',
+              params:{
+                name:post.author.loginname
+              }
+            }">
           <img :src="post.author.avatar_url" alt="" />
+          </router-link>
           <span class="count">
             <span class="replyCount">{{ post.reply_count }}</span
             >/<span class="visitCount">{{ post.visit_count }}</span>
@@ -40,7 +47,7 @@
               },
             }"
           >
-            <span class="title">
+            <span class="title oneLine">
               {{ post.title }}
             </span>
           </router-link>
