@@ -1,86 +1,111 @@
 <template>
   <div class="pagination">
-      <button >«</button>
-      <button class="pagebtn pageEllipsis" v-if="isPrevHidden">...</button>
-      <button 
-        :class="[{currentPage:btn===currentPage},{pageEllipsis:btn==='...'},'pagebtn']"
-        @click="changePage(btn)"
-      v-for="(btn,index) in pagebtns" :key='index'>
-          {{btn}}
-      </button>
-      <button>»</button>
-
+    <button @click="goToTop">«</button>
+    <button class="pagebtn pageEllipsis" v-if="isPrevHidden">...</button>
+    <button
+      :class="[
+        { currentPage: btn === currentPage },
+        { pageEllipsis: btn === '...' },
+        'pagebtn',
+      ]"
+      @click="changePage(btn)"
+      v-for="(btn, index) in pagebtns"
+      :key="index"
+    >
+      {{ btn }}
+    </button>
+    <button @click="goToBottom">»</button>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from "jquery";
 export default {
-    name:'Pagination',
-    data(){
-        return{
-            pagebtns:[1,2,3,4,5,'...'],
-            currentPage: 1,
-            isPrevHidden:false
-        }
+  name: "Pagination",
+  data() {
+    return {
+      pagebtns: [1, 2, 3, 4, 5, "..."],
+      currentPage: 1,
+      isPrevHidden: false,
+      totalCount: 500,
+      pagesize: 20,
+    };
+  },
+  methods: {
+    goToTop() {
+      this.changePage(1);
     },
-    methods:{
-        changePage(page){
-            //点击上一页/下一页/首页
-            if(typeof page !== 'number'){
-                switch(page.target.innerText){
-                    case '上一页':
-                        $('button.currentPage').prev().click()
-                        break;
-                    case '下一页':
-                        $('button.currentPage').next().click()
-                        break;
-                    case '首页':
-                        this.pagebtns = [1,2,3,4,5,'......']
-                        this.changePage(1)
-                        break
-                    default:
-                        break
-                }
-                return
-            }
-            this.isPrevHidden= page>4?true:false
-            this.currentPage = page
-            if(page===this.pagebtns[4]){
-                this.pagebtns.shift()
-                this.pagebtns.splice(4,0,this.pagebtns[3]+1)
-            }
-            else if(page === this.pagebtns[0] && page!==1){
-                this.pagebtns.unshift(this.pagebtns[0]-1)
-                this.pagebtns.splice(5,1)
-            }
-            this.$emit('handle',this.currentPage)
+    goToBottom() {
+      this.changePage(this.totalCount / this.pagesize);
+    },
+    getPageNumberList(num, start, end, length = 5) {
+      let array = [];
+      console.log(num);
+      console.log(start);
+      console.log(end);
+      if (end <= length) {
+        for (let i = 1; i <= length; i++) {
+          array.push(i);
         }
-    }
-}
+      } else if (end - num <= length) {
+        for (let i = 0; i < length; i++) {
+          array.push(end - i);
+        }
+        array.reverse();
+      } else if (num - start < length / 2) {
+        for (let i = 1; i <= length; i++) {
+          array.push(i);
+        }
+      } else {
+        for (let i = 0; i < length; i++) {
+          array.push(num - Math.floor(length / 2) + i);
+        }
+      }
+      return array;
+    },
+    changePage(btn) {
+      if (btn === "...") return;
+      let start = 1;
+      let end = this.totalCount / this.pagesize;
+      let length = 5;
+      let list = this.getPageNumberList(Number(btn), start, end, length);
+      if (Number(list[0]) === start && length < end) {
+        list.push("...");
+      } else if (Number(list[-1]) === end && length < end) {
+        list.unshift("...");
+      } else {
+        list.push("...");
+        list.unshift("...");
+      }
+      this.pagebtns = list;
+      this.currentPage = btn;
+      this.$emit("handle", this.currentPage);
+    },
+  },
+};
 </script>
 
 <style lang='scss' scoped>
-button{
-    padding: 4px 12px;
-    background: white;
-    border: 1px solid #dddddd;
-    border-right: none;
-    color: #778087;
-    cursor: pointer;
-    &:first-child{
-        border-radius: 3px 0 0 3px;
-    }
-    &:last-child{
-        border-right: 1px solid #dddddd;
-        border-radius: 0 3px 3px 0;
-    }
+button {
+  padding: 4px 12px;
+  background: white;
+  border: 1px solid #dddddd;
+  border-right: none;
+  color: #778087;
+  cursor: pointer;
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  &:last-child {
+    border-right: 1px solid #dddddd;
+    border-radius: 0 3px 3px 0;
+  }
 }
-.currentPage{
-    color:#80bd84;
-    cursor: default;
+.currentPage {
+  color: #80bd84;
+  cursor: default;
 }
-.pageEllipsis{
-    cursor: default;
+.pageEllipsis {
+  cursor: default;
 }
 </style>

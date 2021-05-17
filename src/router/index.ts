@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Article from '@/components/Article.vue'
-import sliderBar from '@/components/SiderBar.vue'
+import sideBar from '@/components/SideBar.vue'
 
 Vue.use(VueRouter)
 
@@ -23,12 +23,15 @@ const routes: Array<RouteConfig> = [
     name: 'Post',
     components: {
       main: Article,
-      sliderbar:sliderBar
+      sidebar: sideBar
     }
   },
   {
-    path:'/userinfo/:name',
-    name:"Userinfo",
+    path: '/userinfo/:name',
+    name: "Userinfo",
+    components: {
+      main: sideBar
+    }
   }
 ]
 

@@ -3,13 +3,11 @@
     <Header />
     <div class="main">
       <div class="content-wrapper">
-      <router-view name="main"></router-view>
+        <router-view name="main"></router-view>
       </div>
-      <div class="siderBar-wrapper">
-      <router-view name="sliderbar"></router-view>
-
+      <div class="sideBar-wrapper">
+        <router-view name="sidebar"></router-view>
       </div>
-
     </div>
   </div>
 </template>
@@ -25,15 +23,20 @@ export default {
 <style lang="scss">
 @import "~@/assets/style/helper.scss";
 @import "~@/assets/style/reset.scss";
-.main{
+.main {
   display: flex;
   width: 90%;
   margin: 15px auto;
   min-height: 400px;
-  > .content-wrapper{
+  > .content-wrapper {
     flex-grow: 1;
     width: 0;
     margin-right: 15px;
+  }
+  > .sideBar-wrapper {
+    > .sideBar {
+      width: 290px;
+    }
   }
 }
 </style>

@@ -3,7 +3,9 @@
     <div class="loading" v-if="isLoading">加载中</div>
     <div v-else>
       <div class="topicHeader">
-        <div class="topicTitle oneLine" :title="post.title">{{ post.title }}</div>
+        <div class="topicTitle oneLine" :title="post.title">
+          {{ post.title }}
+        </div>
         <ul class="topicInfo">
           <li>发布于：{{ post.create_at | formatDate }}</li>
           <li>作者：{{ post.author.loginname }}</li>
@@ -14,25 +16,35 @@
       <div class="topicContent markdown-body" v-html="post.content"></div>
     </div>
     <Pannel class="topicReplies">
-      <template v-slot:topbar>{{post.replies&&post.replies.length}} 回复</template>
+      <template v-slot:topbar
+        >{{ post.replies && post.replies.length }} 回复</template
+      >
       <template v-slot:content>
-        <div v-for="(reply,index) in post.replies" :key="reply.id">
+        <div
+          v-for="(reply, index) in post.replies"
+          :key="reply.id"
+          class="replyItem"
+        >
           <div class="replyInfo">
-            <router-link :to="{
-              name:'Userinfo',
-              params:{
-                name:reply.author.loginname
-              }
-            }">
-            <img :src="reply.author.avatar_url" alt="">
+            <router-link
+              :to="{
+                name: 'Userinfo',
+                params: {
+                  name: reply.author.loginname,
+                },
+              }"
+            >
+              <img :src="reply.author.avatar_url" alt="" />
             </router-link>
-            
-            <span class='replyName'>{{reply.author.loginname}}</span>
-            <span class="replyIndex">{{index+1}}楼</span>
-            <span class="replyTime">{{reply.create_at | formatDate}}</span>
-            <span v-if="reply.ups.length>0" class="replyLike">👍{{reply.ups.length}}</span>
+
+            <span class="replyName">{{ reply.author.loginname }}</span>
+            <span class="replyIndex">{{ index + 1 }}楼</span>
+            <span class="replyTime">{{ reply.create_at | formatDate }}</span>
+            <span v-if="reply.ups.length > 0" class="replyLike"
+              >👍{{ reply.ups.length }}</span
+            >
           </div>
-          <p v-html='reply.content' class="replyContent"></p>
+          <p v-html="reply.content" class="replyContent"></p>
         </div>
       </template>
     </Pannel>
@@ -40,13 +52,12 @@
 </template>
 
 <script>
-import Pannel from './Pannel.vue';
+import Pannel from "./Pannel.vue";
 export default {
-  components:{
-    Pannel
+  components: {
+    Pannel,
   },
   data: function () {
- 
     return {
       isLoading: false,
       post: {},
@@ -66,12 +77,12 @@ export default {
         });
     },
   },
-  
-    watch:{
-        $route(to,from){
-            this.getArticleData();
-        }
+
+  watch: {
+    $route(to, from) {
+      this.getArticleData();
     },
+  },
   beforeMount() {
     this.isLoading = true;
     this.getArticleData();
@@ -80,74 +91,77 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.article{
-  .topicHeader{
+.article {
+  .topicHeader {
     padding: 10px;
     border-radius: 3px 3px 0 0;
     background: white;
     border-bottom: 1px solid #e5e5e5;
-    .topicTitle{
+    .topicTitle {
       font-size: 22px;
       font-weight: 700;
       line-height: 2em;
     }
-    .topicInfo{
+    .topicInfo {
       font-size: 12px;
       color: #838383;
-      >li{
+      > li {
         display: inline;
-        &::before{
-          content:' • '
+        &::before {
+          content: " • ";
         }
       }
     }
   }
-  .topicContent{
+  .topicContent {
     padding: 20px;
     background: white;
     border-radius: 0 0 3px 3px;
     margin-bottom: 15px;
   }
-  .topicReplies{
-    .replyInfo{
+  .topicReplies {
+    .replyItem {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 8px 0;
+    }
+    .replyInfo {
       display: flex;
     }
-    .replyContent{
-      padding:0 50px;
+    .replyContent {
+      padding: 0 50px;
       color: #333;
-      
-      ::v-deep img{
+
+      ::v-deep img {
         max-width: 100%;
       }
     }
-    img{
+    img {
       width: 30px;
       height: 30px;
       border-radius: 3px;
       vertical-align: middle;
     }
-    .replyName{
-      color:#666666;
+    .replyName {
+      color: #666666;
       font-size: 12px;
       font-weight: 700;
       margin-left: 10px;
     }
-    .replyIndex{
+    .replyIndex {
       margin-left: 4px;
       font-size: 11px;
       color: #08c;
     }
-    .replyTime{
+    .replyTime {
       font-size: 11px;
-      color:#08c;
-      &::before{
-        content:'•';
+      color: #08c;
+      &::before {
+        content: "•";
       }
     }
-    .replyLike{
+    .replyLike {
       margin-left: auto;
     }
   }
 }
-
 </style>
