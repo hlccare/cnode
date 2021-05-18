@@ -31,6 +31,11 @@ const routes: Array<RouteConfig> = [
     name: "Userinfo",
     components: {
       main: sideBar
+    },
+    props: {
+      main: {
+        isLimited: false
+      }
     }
   }
 ]

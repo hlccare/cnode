@@ -10,6 +10,7 @@
               name: userinfo.loginname,
             },
           }"
+          v-if="userinfo.loginname"
         >
           <img :src="userinfo.avatar_url" alt="" />
           <span class="nameLabel">
@@ -27,7 +28,7 @@
           <li
             class="oneLine"
             :title="item.title"
-            v-for="(item, index) in topicLimitedBy5"
+            v-for="(item, index) in topicList"
             :key="index"
           >
             <router-link
@@ -52,7 +53,7 @@
           <li
             class="oneLine"
             :title="item.title"
-            v-for="(item, index) in replyLimitedBy5"
+            v-for="(item, index) in replyList"
             :key="index"
           >
             <router-link
@@ -70,53 +71,6 @@
         </ul>
       </template>
     </Pannel>
-    <!-- <div class="authorSummary">
-          <div class="topbar">作者</div>
-          <router-link :to="{
-              name:'Userinfo',
-              params:{
-                  name:userinfo.loginname
-              }
-          }">
-              <img :src="userinfo.avatar_url" alt="">
-          </router-link>
-      </div>
-      <div class="recentTopics">
-          <div class="topbar">作者最近主题</div>
-          <ul>
-              <li class="oneLine" 
-              v-for="(item,index) in topicLimitedBy5" :key='index'>
-                  <router-link :to="{
-                      name:'Post',
-                      params:{
-                          id:item.id,
-                          name:item.author.loginname  
-                      }
-                  }">
-
-                  {{item.title}}
-                  </router-link>
-              </li>
-          </ul>
-      </div>
-      <div class="recentReplies">
-          <div class="topbar">作者最近回复</div>
-          <ul>
-              <li class="oneLine" 
-              v-for="(item,index) in replyLimitedBy5" :key='index'>
-                  <router-link :to="{
-                      name:'Post',
-                      params:{
-                          id:item.id,
-                          name:item.author.loginname  
-                      }
-                  }">
-
-                  {{item.title}}
-                  </router-link>
-              </li>
-          </ul>
-      </div> -->
   </div>
 </template>
 
@@ -126,6 +80,12 @@ export default {
   name: "Sidebar",
   components: {
     Pannel,
+  },
+  props: {
+    isLimited: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -150,14 +110,25 @@ export default {
     },
   },
   computed: {
-    topicLimitedBy5() {
-      if (this.userinfo.recent_topics && this.userinfo.recent_topics.length) {
-        return this.userinfo.recent_topics.slice(0, 5);
+    topicList() {
+      if (this.isLimited) {
+        if (this.userinfo.recent_topics && this.userinfo.recent_topics.length) {
+          return this.userinfo.recent_topics.slice(0, 5);
+        }
+      } else {
+        return this.userinfo.recent_topics;
       }
     },
-    replyLimitedBy5() {
-      if (this.userinfo.recent_replies && this.userinfo.recent_replies.length) {
-        return this.userinfo.recent_replies.slice(0, 5);
+    replyList() {
+      if (this.isLimited) {
+        if (
+          this.userinfo.recent_replies &&
+          this.userinfo.recent_replies.length
+        ) {
+          return this.userinfo.recent_replies.slice(0, 5);
+        }
+      } else {
+        return this.userinfo.recent_replies;
       }
     },
   },

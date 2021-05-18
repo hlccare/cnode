@@ -1,26 +1,31 @@
 <template>
   <div class="postList">
-    <div v-if="isLoading" class="loading">加载中</div>
+    <div v-if="isLoading" class="loading">
+      <img src="../assets/img/loading.gif" alt="" />
+    </div>
     <div class="posts">
       <ul>
         <li>
           <div class="topbar">
-            <span 
-             @click='changeTab(value)'
-            :class="{selected: postTab === value}"
-            v-for="(value,key,index) in tabMap" :key="index">
-              {{key}}
-            </span>
+            <span
+              @click="changeTab(value)"
+              :class="{ selected: postTab === value }"
+              v-for="(value, key, index) in tabMap"
+              :key="index"
+              >{{ key }}</span
+            >
           </div>
         </li>
         <li v-for="post in posts" :key="post.id" class="postItem">
-          <router-link :to="{
-              name:'Userinfo',
-              params:{
-                name:post.author.loginname
-              }
-            }">
-          <img :src="post.author.avatar_url" alt="" />
+          <router-link
+            :to="{
+              name: 'Userinfo',
+              params: {
+                name: post.author.loginname,
+              },
+            }"
+          >
+            <img :src="post.author.avatar_url" alt="" />
           </router-link>
           <span class="count">
             <span class="replyCount">{{ post.reply_count }}</span
@@ -43,7 +48,7 @@
               name: 'Post',
               params: {
                 id: post.id,
-                name: post.author.loginname
+                name: post.author.loginname,
               },
             }"
           >
@@ -57,7 +62,7 @@
           </span>
         </li>
         <li class="pagination">
-          <pagination @handle='renderList'/>
+          <pagination @handle="renderList" />
         </li>
       </ul>
     </div>
@@ -65,25 +70,25 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination.vue'
+import Pagination from "@/components/Pagination.vue";
 const tabMap = {
-  '全部':'',
-  '精华':'good',
-  '分享':'share',
-  '问答':'ask',
-  '招聘':'job'
-}
+  全部: "",
+  精华: "good",
+  分享: "share",
+  问答: "ask",
+  招聘: "job",
+};
 export default {
-  components:{
-    Pagination
+  components: {
+    Pagination,
   },
   data: function () {
     return {
       isLoading: false,
       posts: [],
-      postpage:1,
-      postTab:'',
-      tabMap
+      postpage: 1,
+      postTab: "",
+      tabMap,
     };
   },
   methods: {
@@ -93,24 +98,26 @@ export default {
           params: {
             page: this.postpage,
             limit: 20,
-            tab: this.postTab
+            tab: this.postTab,
           },
         })
         .then((res) => {
-          this.isLoading = false;
           this.posts = res.data.data;
           console.log(this.posts);
+          this.isLoading = false;
         })
         .catch();
     },
-    renderList(value){
-      this.postpage = value
-      this.getData()
+    renderList(value) {
+      this.isLoading = true;
+      this.postpage = value;
+      this.getData();
     },
-    changeTab(value){
-      this.postTab = value
-      this.getData()
-    }
+    changeTab(value) {
+      this.isLoading = true;
+      this.postTab = value;
+      this.getData();
+    },
   },
   beforeMount() {
     this.isLoading = true;
@@ -123,6 +130,7 @@ export default {
 .postList {
   background: #e1e1e1;
   border-radius: 3px;
+  position: relative;
   > .posts {
     .topbar {
       background: #f5f5f5;
@@ -133,13 +141,13 @@ export default {
         padding: 3px 4px;
         margin: 0 10px;
         cursor: pointer;
-        &.selected{
+        &.selected {
           color: white;
           background: #80bd01;
           border-radius: 3px;
         }
-        &:not(.selected):hover{
-          color:#9e78c0;
+        &:not(.selected):hover {
+          color: #9e78c0;
         }
       }
     }
@@ -185,8 +193,8 @@ export default {
         margin-left: auto;
       }
     }
-    .pagination{
-      background:white;
+    .pagination {
+      background: white;
       padding: 4px;
     }
   }
@@ -195,5 +203,11 @@ img {
   height: 30px;
   width: 30px;
   border-radius: 3px;
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 </style>

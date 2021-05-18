@@ -1,6 +1,8 @@
 <template>
   <div class="article">
-    <div class="loading" v-if="isLoading">加载中</div>
+    <div v-if="isLoading" class="loading">
+      <img src="../assets/img/loading.gif" alt="" />
+    </div>
     <div v-else>
       <div class="topicHeader">
         <div class="topicTitle oneLine" :title="post.title">
@@ -92,6 +94,7 @@ export default {
 
 <style lang="scss" scoped>
 .article {
+  position: relative;
   .topicHeader {
     padding: 10px;
     border-radius: 3px 3px 0 0;
@@ -163,5 +166,11 @@ export default {
       margin-left: auto;
     }
   }
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 </style>
