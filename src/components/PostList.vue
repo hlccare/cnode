@@ -51,8 +51,9 @@
                 name: post.author.loginname,
               },
             }"
+            class="title oneLine"
           >
-            <span class="title oneLine">
+            <span class="">
               {{ post.title }}
             </span>
           </router-link>
@@ -128,6 +129,7 @@ export default {
 
 <style lang="scss" scoped>
 .postList {
+  white-space: nowrap;
   background: #e1e1e1;
   border-radius: 3px;
   position: relative;
@@ -185,12 +187,16 @@ export default {
       }
       .title {
         margin-left: 4px;
+        flex-grow: 1;
+        width: 0;
         &:hover {
           cursor: pointer;
         }
       }
       > .lastReply {
         margin-left: auto;
+        min-width: 3em;
+        text-align: right;
       }
     }
     .pagination {

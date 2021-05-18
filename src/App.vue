@@ -39,4 +39,15 @@ export default {
     }
   }
 }
+@media (max-width: 700px) {
+  .sideBar-wrapper {
+    display: none;
+  }
+  .main {
+    width: 95%;
+    > .content-wrapper {
+      margin-right: 0px;
+    }
+  }
+}
 </style>

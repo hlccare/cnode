@@ -108,4 +108,9 @@ button {
 .pageEllipsis {
   cursor: default;
 }
+@media (max-width: 700px) {
+  .pagination {
+    font-size: 0.8em;
+  }
+}
 </style>

@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <div class="topicHeader">
-        <div class="topicTitle oneLine" :title="post.title">
+        <div class="topicTitle" :title="post.title">
           {{ post.title }}
         </div>
         <ul class="topicInfo">
